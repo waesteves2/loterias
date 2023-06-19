@@ -28,6 +28,9 @@
 
     .lottery-numbers {
       margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .number-ball {
@@ -41,38 +44,33 @@
       line-height: 40px;
       font-size: 20px;
       margin-right: 10px;
-      animation-name: ballEffect;
+      opacity: 0;
+      position: relative;
       animation-duration: 2s;
       animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
     }
 
-    .number-ball:last-child {
+    .ball-effect {
+      animation-name: ballEffect;
+    }
+
+    .last-ball {
       background-color: #000;
-      animation-name: ballEffectLast;
     }
 
     @keyframes ballEffect {
       0% {
-        transform: scale(0.8);
+        opacity: 0;
+        transform: translate(-100px, -100px);
       }
-      50% {
-        transform: scale(1.2);
+      25% {
+        opacity: 1;
       }
+      75%,
       100% {
-        transform: scale(0.8);
-      }
-    }
-
-    @keyframes ballEffectLast {
-      0% {
-        transform: scale(0.8);
-      }
-      50% {
-        transform: scale(1.2) rotate(180deg);
-      }
-      100% {
-        transform: scale(0.8);
+        opacity: 1;
+        transform: translate(0, 0);
       }
     }
 
@@ -115,60 +113,67 @@
       var megaSenaNumbers = document.getElementById("megaSenaNumbers");
       megaSenaNumbers.innerHTML = "";
 
-      var counter = 0;
       var numbers = [];
 
-      var interval = setInterval(function() {
-        if (counter === 6) {
-          clearInterval(interval);
-        } else {
-          var randomNumber = getRandomNumber(1, 60, numbers);
-          numbers.push(randomNumber);
+      while (numbers.length < 6) {
+        var randomNumber = getRandomNumber(1, 60, numbers);
 
-          var numberBall = document.createElement("span");
-          numberBall.classList.add("number-ball");
-          numberBall.textContent = randomNumber;
+        numbers.push(randomNumber);
+      }
 
-          megaSenaNumbers.appendChild(numberBall);
-          counter++;
+      numbers.sort(function(a, b) {
+        return a - b;
+      });
+
+      for (var i = 0; i < numbers.length; i++) {
+        var numberBall = document.createElement("span");
+        numberBall.classList.add("number-ball", "ball-effect");
+        if (i === numbers.length - 1) {
+          numberBall.classList.add("last-ball");
         }
-      }, 200);
+        numberBall.textContent = numbers[i];
+        numberBall.style.animationDelay = (i * 0.2) + "s";
+        megaSenaNumbers.appendChild(numberBall);
+      }
     }
 
     function generateLotofacilNumbers() {
       var lotofacilNumbers = document.getElementById("lotofacilNumbers");
       lotofacilNumbers.innerHTML = "";
 
-      var counter = 0;
       var numbers = [];
 
-      var interval = setInterval(function() {
-        if (counter === 15) {
-          clearInterval(interval);
-        } else {
-          var randomNumber = getRandomNumber(1, 25, numbers);
-          numbers.push(randomNumber);
+      while (numbers.length < 15) {
+        var randomNumber = getRandomNumber(1, 25, numbers);
 
-          var numberBall = document.createElement("span");
-          numberBall.classList.add("number-ball");
-          numberBall.textContent = randomNumber;
+        numbers.push(randomNumber);
+      }
 
-          lotofacilNumbers.appendChild(numberBall);
-          counter++;
+      numbers.sort(function(a, b) {
+        return a - b;
+      });
+
+      for (var i = 0; i < numbers.length; i++) {
+        var numberBall = document.createElement("span");
+        numberBall.classList.add("number-ball", "ball-effect");
+        if (i === numbers.length - 1) {
+          numberBall.classList.add("last-ball");
         }
-      }, 200);
+        numberBall.textContent = numbers[i];
+        numberBall.style.animationDelay = (i * 0.2) + "s";
+        lotofacilNumbers.appendChild(numberBall);
+      }
     }
 
     function getRandomNumber(min, max, exclude) {
       var number = Math.floor(Math.random() * (max - min + 1)) + min;
-      
+
       if (exclude.includes(number)) {
         return getRandomNumber(min, max, exclude);
       }
-      
+
       return number;
     }
   </script>
 </body>
 </html>
-
