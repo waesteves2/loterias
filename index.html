@@ -1,179 +1,284 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conferência Inteligente de Jogos</title>
 
-    h1 {
-      color: #004899;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    button {
-      background-color: #004899;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    margin: 0;
+    padding: 15px;
+}
 
-    .lottery-numbers {
-      margin-top: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+h1 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
 
-    .number-ball {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #004899;
-      color: #fff;
-      text-align: center;
-      line-height: 40px;
-      font-size: 20px;
-      margin-right: 10px;
-      opacity: 0;
-      position: relative;
-      animation-duration: 2s;
-      animation-timing-function: ease-in-out;
-      animation-fill-mode: forwards;
-    }
+.box {
+    background: #020617;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
 
-    .ball-effect {
-      animation-name: ballEffect;
-    }
+.pessoa {
+    background: #1e293b;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-    .last-ball {
-      background-color: #000;
-    }
+.pessoa:hover {
+    background: #334155;
+}
 
-    @keyframes ballEffect {
-      0% {
-        opacity: 0;
-        transform: translate(-100px, -100px);
-      }
-      25% {
-        opacity: 1;
-      }
-      75%,
-      100% {
-        opacity: 1;
-        transform: translate(0, 0);
-      }
-    }
+.pixCopy {
+    cursor: pointer;
+    width: 25px; /* ajuste o tamanho da imagem */
+    height: 25px;
+}
 
-    @media screen and (max-width: 480px) {
-      h1 {
-        font-size: 24px;
-      }
+.detalhes {
+    background: #020617;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 8px;
+    display: none;
+}
 
-      button {
-        font-size: 14px;
-      }
+.jogo {
+    background: #1e293b;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    text-align: center;
+}
 
-      .number-ball {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 14px;
-      }
-    }
-  </style>
+.top {
+    border: 2px solid #facc15;
+    background: #78350f;
+}
+
+.numero {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    margin: 3px;
+    border-radius: 50%;
+    background: #020617;
+    font-size: 14px;
+}
+
+.acertou {
+    border: 3px solid #22c55e;
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.campos {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.campos input {
+    width: 100%;
+    max-width: 55px;
+    padding: 12px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover { background: #1d4ed8; }
+
+footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    color: #94a3b8;
+}
+</style>
 </head>
+
 <body>
-  <h1>Gerador de Números</h1>
 
-  <button onclick="generateMegaSenaNumbers()">Gerar Números da Mega Sena</button>
-  <button onclick="generateLotofacilNumbers()">Gerar Números da Lotofácil</button>
+<h1>🧠 Conferência Inteligente de Jogos</h1>
 
-  <div class="lottery-numbers">
-    <h2>Mega Sena</h2>
-    <div id="megaSenaNumbers"></div>
-  </div>
+<div class="box">
+    <h3>Números Sorteados</h3>
+    <div class="campos">
+        <input maxlength="2" oninput="avancar(this,0)">
+        <input maxlength="2" oninput="avancar(this,1)">
+        <input maxlength="2" oninput="avancar(this,2)">
+        <input maxlength="2" oninput="avancar(this,3)">
+        <input maxlength="2" oninput="avancar(this,4)">
+        <input maxlength="2" oninput="avancar(this,5)">
+    </div>
+    <button onclick="conferir()">Conferir Jogos</button>
+</div>
 
-  <div class="lottery-numbers">
-    <h2>Lotofácil</h2>
-    <div id="lotofacilNumbers"></div>
-  </div>
+<div class="box" id="listaPessoas"></div>
 
-  <script>
-    function generateMegaSenaNumbers() {
-      var megaSenaNumbers = document.getElementById("megaSenaNumbers");
-      megaSenaNumbers.innerHTML = "";
+<div class="box" id="resultado"></div>
 
-      var numbers = [];
 
-      while (numbers.length < 6) {
-        var randomNumber = getRandomNumber(1, 60, numbers);
+<script>
+const pessoas = [
+    { nome: "Simão Alisson", jogos: ["06 12 23 26 33 57","28 16 29 09 02 04","22 32 56 57 20 25","03 15 20 51 38 59","10 31 46 54 57 60"], pix: "000201..." },
+    { nome: "Elton Esteves", jogos: ["04 11 23 34 47 58","07 16 28 33 45 60","05 14 27 36 49 53","02 19 21 38 44 57","09 18 30 41 52 59"], pix: "000201..." },
+    { nome: "Aline Nicolete", jogos: ["01 12 26 35 48 55","06 15 24 32 46 58","08 17 29 37 42 60","03 14 22 39 50 56","10 18 27 34 45 53"], pix: "000201..." },
+    { nome: "Silvana Gregio", jogos: ["02 03 09 14 25 51","01 06 07 12 37 49","02 14 23 35 39 41","04 07 08 18 27 46","17 33 42 48 51 56"], pix: "000201..." },
+    { nome: "Gisele Siqueira", jogos: ["05 12 24 35 47 54","02 08 15 21 30 51","06 10 19 34 42 58","01 12 20 25 38 42","08 10 26 32 48 52"], pix: "000201..." },
+    { nome: "Edurado Soufen", jogos: ["05 09 15 22 35 49","08 11 21 36 41 53","02 08 19 24 47 52","03 10 25 28 43 57","07 25 31 39 44 56"], pix: "000201..." },
+    { nome: "João Paulo", jogos: ["01 06 08 25 27 57","05 07 23 28 33 37","10 13 16 19 24 60","07 34 39 44 55 57","12 17 27 35 40 50"], pix: "000201..." },
+    { nome: "Renata Tavares", jogos: ["02 06 07 10 48 57","01 13 17 28 32 35","04 10 13 22 47 60","08 16 27 33 45 56","01 07 26 27 49 58"], pix: "00020126510014br.gov.bcb.pix0111401260068060214Mega da Virada520400005303986540530.005802BR5920WELTON ALVES ESTEVES6003JAU62290525rYJqFC0yHJ8zFmPHwHXcD1Awf6304862C" },
+    { nome: "João Carlos", jogos: ["05 14 25 26 27 29","10 14 20 23 26 49","01 07 12 35 40 55","33 37 38 42 45 49","06 09 11 21 22 50"], pix: "00020126510014br.gov.bcb.pix0111401260068060214Mega da Virada520400005303986540530.005802BR5920WELTON ALVES ESTEVES6003JAU62290525rYJqFC0yHJ8zFmPHwHXcD1Awf6304862C" },
+    { nome: "Ana Beatriz", jogos: ["02 04 11 27 48 56","05 13 22 38 42 60","06 14 19 30 35 52","01 09 17 26 37 50","03 07 16 39 44 53"], pix: "00020126510014br.gov.bcb.pix0111401260068060214Mega da Virada520400005303986540530.005802BR5920WELTON ALVES ESTEVES6003JAU62290525rYJqFC0yHJ8zFmPHwHXcD1Awf6304862C" },
+    { nome: "Rodrigo Sinoreto", jogos: ["05 14 23 32 41 56","02 11 18 27 35 48","03 09 22 33 44 50","06 15 24 31 42 59","01 12 20 28 37 49"], pix: "00020126510014br.gov.bcb.pix0111401260068060214Mega da Virada520400005303986540530.005802BR5920WELTON ALVES ESTEVES6003JAU62290525rYJqFC0yHJ8zFmPHwHXcD1Awf6304862C" 
+}
 
-        numbers.push(randomNumber);
-      }
+];
 
-      numbers.sort(function(a, b) {
-        return a - b;
-      });
+let aberto = null;
 
-      for (var i = 0; i < numbers.length; i++) {
-        var numberBall = document.createElement("span");
-        numberBall.classList.add("number-ball", "ball-effect");
-        if (i === numbers.length - 1) {
-          numberBall.classList.add("last-ball");
-        }
-        numberBall.textContent = numbers[i];
-        numberBall.style.animationDelay = (i * 0.2) + "s";
-        megaSenaNumbers.appendChild(numberBall);
-      }
+function montarLista() {
+    const lista = document.getElementById("listaPessoas");
+    lista.innerHTML = "<h3>Pessoas</h3>";
+
+    pessoas.forEach((p, i) => {
+        const bloco = document.createElement("div");
+
+        bloco.innerHTML = `
+            <div class="pessoa" onclick="togglePessoa(${i})">
+                <span>${p.nome}</span>
+                ${p.pix ? `<img src="pix.png" class="pixCopy" title="Copia e Cola" onclick="copiarPix('${p.pix}', event)">` : ''}
+            </div>
+            <div class="detalhes" id="detalhes-${i}"></div>
+        `;
+
+        lista.appendChild(bloco);
+    });
+}
+
+function togglePessoa(index) {
+    if (aberto !== null && aberto !== index) {
+        document.getElementById(`detalhes-${aberto}`).style.display = "none";
     }
 
-    function generateLotofacilNumbers() {
-      var lotofacilNumbers = document.getElementById("lotofacilNumbers");
-      lotofacilNumbers.innerHTML = "";
+    const atual = document.getElementById(`detalhes-${index}`);
 
-      var numbers = [];
-
-      while (numbers.length < 15) {
-        var randomNumber = getRandomNumber(1, 25, numbers);
-
-        numbers.push(randomNumber);
-      }
-
-      numbers.sort(function(a, b) {
-        return a - b;
-      });
-
-      for (var i = 0; i < numbers.length; i++) {
-        var numberBall = document.createElement("span");
-        numberBall.classList.add("number-ball", "ball-effect");
-        if (i === numbers.length - 1) {
-          numberBall.classList.add("last-ball");
-        }
-        numberBall.textContent = numbers[i];
-        numberBall.style.animationDelay = (i * 0.2) + "s";
-        lotofacilNumbers.appendChild(numberBall);
-      }
+    if (aberto === index) {
+        atual.style.display = "none";
+        aberto = null;
+        return;
     }
 
-    function getRandomNumber(min, max, exclude) {
-      var number = Math.floor(Math.random() * (max - min + 1)) + min;
+    mostrarJogos(index);
+    atual.style.display = "block";
+    aberto = index;
+}
 
-      if (exclude.includes(number)) {
-        return getRandomNumber(min, max, exclude);
-      }
+function mostrarJogos(index, destaque = []) {
+    const p = pessoas[index];
+    const sorteados = pegarNumeros();
+    const div = document.getElementById(`detalhes-${index}`);
 
-      return number;
+    let html = "<h4>Jogos</h4>";
+
+    p.jogos.forEach(j => {
+        let classe = "jogo";
+        if (destaque.includes(j)) classe += " top";
+
+        html += `<div class="${classe}">`;
+        j.split(" ").forEach(n => {
+            const acerto = sorteados.includes(parseInt(n));
+            html += `<span class="numero ${acerto ? 'acertou' : ''}">${n}</span>`;
+        });
+        html += `</div>`;
+    });
+
+    div.innerHTML = html;
+}
+
+function copiarPix(texto, event){
+    event.stopPropagation(); // evita que abra/feche detalhes
+    navigator.clipboard.writeText(texto)
+        .then(() => alert("Código PIX copiado!"))
+        .catch(() => alert("Erro ao copiar PIX."));
+}
+
+function avancar(campo, i) {
+    campo.value = campo.value.replace(/\D/g, '');
+    if (campo.value.length === 2) {
+        campo.value = campo.value.padStart(2,'0');
+        const campos = document.querySelectorAll('.campos input');
+        if (i < campos.length - 1) campos[i+1].focus();
     }
-  </script>
+}
+
+function pegarNumeros() {
+    return [...document.querySelectorAll('.campos input')]
+        .map(c => parseInt(c.value))
+        .filter(n => !isNaN(n));
+}
+
+function conferir() {
+    const sorteados = pegarNumeros();
+    let maior = 0;
+    let vencedores = [];
+
+    pessoas.forEach((p,i) => {
+        p.jogos.forEach(j => {
+            const acertos = j.split(" ").filter(n => sorteados.includes(parseInt(n))).length;
+            if (acertos > maior) {
+                maior = acertos;
+                vencedores = [{ pessoa: i, jogo: j }];
+            } else if (acertos === maior) {
+                vencedores.push({ pessoa: i, jogo: j });
+            }
+        });
+    });
+
+    let html = `<h3>🏆 Maior número de acertos: ${maior}</h3>`;
+    vencedores.forEach(v => {
+        html += `<p><strong>${pessoas[v.pessoa].nome}</strong> — ${v.jogo}</p>`;
+        mostrarJogos(v.pessoa, [v.jogo]);
+    });
+
+    document.getElementById("resultado").innerHTML = html;
+}
+
+montarLista();
+</script>
+
 </body>
 </html>
